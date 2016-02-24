@@ -180,13 +180,16 @@ class Zalando:
 
 
     def build_zalando_database(self,page_soup,gender):
-        next_page = self.BASE_URL + page_soup.find("a","catalogPagination_button catalogPagination_button-next")['href']
+        page_a = self.BASE_URL + page_soup.find("a","catalogPagination_button catalogPagination_button-next")
         catalog_articles_list = page_soup.find("ul","catalogArticlesList")
         for li in catalog_articles_list.findAll("li"):
             a = li.find("a","catalogArticlesList_productBox")
             self.logger.write(self.BASE_URL+a["href"]+" being explored \n")
             self.get_product_details(self.BASE_URL+a["href"],gender)
 
+        if page_a is None:
+            return
+        next_page = page_a['href']
         self.build_zalando_database(BeautifulSoup(requests.get(next_page).content,"lxml"),gender)
 
 print "Creating Zalando Object"
