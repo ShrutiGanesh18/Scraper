@@ -27,7 +27,7 @@ class Zalando:
         try:
             self.zalando_graph.schema.create_uniqueness_constraint('Zalando', 'article_number')
         except Exception as e:
-            self.logger.log("uniqueness constraint already set\n")
+            self.logger.write("uniqueness constraint already set\n")
         self.count = 0
         self.xml_root = Element('Properties')
         self.properties = open("clothing_properties.xml","w")
